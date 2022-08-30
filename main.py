@@ -19,11 +19,11 @@ while not game_over:
         #eventos que hace el usuario y lo captura pg.event.get() y lo devuelve una lista de eventos
         if evento.type == pg.QUIT:
             game_over = True
-        elif evento.type == pg.KEYDOWN:
-            if evento.key == pg.K_DOWN:
-                raqueta2.center_y += raqueta2.vy
-            elif evento.key == pg.K_UP:
-                raqueta2.center_y -= raqueta2.vy
+    estado_teclas = pg.key.get_pressed()
+    if estado_teclas[pg.K_UP]:#se puede poner también if estado_teclas[pg.K_UP] == True:
+        raqueta2.center_y -= raqueta2.vy
+    if estado_teclas[pg.K_DOWN]:#se puede poner también if estado_teclas[pg.K_DOWN] == True:
+        raqueta2.center_y += raqueta2.vy
 
 
     pantalla_principal.fill((0, 0, 0))
