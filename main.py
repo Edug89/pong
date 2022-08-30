@@ -11,6 +11,7 @@ pg.display.set_caption("PONG")
 bola = Bola(400, 300, color=(255,255,255))
 raqueta1 = Raqueta(20, 300, w=20, h=120, color=(255,255,255))
 raqueta2 = Raqueta(780,300, w=20, h=120, color=(255,255,255))
+raqueta2.vy = 5
 game_over = False
 
 while not game_over:
@@ -18,6 +19,12 @@ while not game_over:
         #eventos que hace el usuario y lo captura pg.event.get() y lo devuelve una lista de eventos
         if evento.type == pg.QUIT:
             game_over = True
+        elif evento.type == pg.KEYDOWN:
+            if evento.key == pg.K_DOWN:
+                raqueta2.center_y += raqueta2.vy
+            elif evento.key == pg.K_UP:
+                raqueta2.center_y -= raqueta2.vy
+
 
     pantalla_principal.fill((0, 0, 0))
     bola.dibujar(pantalla_principal)
