@@ -28,7 +28,33 @@ class Bola:
 
             self.vx *= -1
             self.vy *= -1
+    
+    def comprobar_choque(self, r1 , r2):
+        if self.derecha >= r2.izquierda and \
+           self.abajo >= r2.arriba and \
+           self.arriba <= r2.abajo:
 
+           self.vx *= -1
+
+        if self.izquierda <= r1.derecha and \
+           self.abajo >= r1.arriba and \
+           self.arriba <= r1.abajo:
+           
+           self.vx *= -1
+
+
+    @property
+    def izquierda(self):
+        return self.center_x - self.radio
+    @property
+    def derecha(self):
+        return self.center_x + self.radio
+    @property
+    def arriba(self):
+        return self.center_y - self.radio
+    @property
+    def abajo(self):
+        return self.center_y + self.radio
 
 
 class Raqueta:
@@ -58,6 +84,18 @@ class Raqueta:
         if self.center_y > y_max - self.h // 2:
             self.center_y = y_max - self.h // 2
 
+    @property
+    def izquierda(self):
+        return self.center_x - self.w // 2
+    @property
+    def derecha(self):
+        return self.center_x + self.w // 2
+    @property
+    def arriba(self):
+        return self.center_y - self.h // 2
+    @property
+    def abajo(self):
+        return self.center_y + self.h // 2
 
 
 
