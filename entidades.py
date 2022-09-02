@@ -29,18 +29,16 @@ class Bola:
             self.vx *= -1
             self.vy *= -1
     
-    def comprobar_choque(self, r1 , r2):
-        if self.derecha >= r2.izquierda and \
-           self.abajo >= r2.arriba and \
-           self.arriba <= r2.abajo:
+    def comprobar_choque(self, *raquetas):
+        for raquetas_activas in raquetas:
+            if self.derecha >= raquetas_activas.izquierda and \
+               self.izquierda <= raquetas_activas.derecha and \
+               self.abajo >= raquetas_activas.arriba and \
+               self.arriba <= raquetas_activas.abajo:
 
-           self.vx *= -1
+                    self.vx *= -1
+    #Esta funcion comprueba el choque de la bola con las 2raquetas,da igual el sentido donde venga la bola.         
 
-        if self.izquierda <= r1.derecha and \
-           self.abajo >= r1.arriba and \
-           self.arriba <= r1.abajo:
-           
-           self.vx *= -1
 
 
     @property

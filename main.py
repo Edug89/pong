@@ -15,6 +15,8 @@ raqueta1 = Raqueta(20, 300, w=20, h=120, color=(255,255,255))
 raqueta2 = Raqueta(780,300, w=20, h=120, color=(255,255,255))
 raqueta2.vy = 5
 raqueta1.vy = 5
+marcador1 = 0
+marcador2 = 0
 
 game_over = False
 
