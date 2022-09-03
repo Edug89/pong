@@ -1,12 +1,7 @@
-from string import punctuation
 import pygame as pg
-from entidades import Bola, Raqueta
+from juego_pong.entidades import Bola, Raqueta
+from juego_pong import BLANCO,ANCHO,ALTO,NEGRO,FPS
 
-ANCHO = 800
-ALTO = 600
-BLANCO = (255, 255, 255)
-NEGRO = (0, 0, 255)
-AMARILLO = (255, 255, 0)
 
 class Partida():
     def __init__(self):
@@ -23,23 +18,33 @@ class Partida():
         self.puntuacion1 = 0
         self.puntuacion2 = 0
 
+        self.fuenteMarcador = pg.font.Font("juego_pong/fonts/silkscreen.ttf", 40)
+
     def bucle_ppal(self):
-        self.bola_vx = 3
-        self.bola_vy = -3
+        self.bola_vx = 5
+        self.bola_vy = -5
+
+        game_over = False
 
         while not game_over:
-            self.cronometro.tick()
+            self.cronometro.tick(FPS)
             for evento in pg.event.get():
                 #eventos que hace el usuario y lo captura pg.event.get() y lo devuelve una lista de eventos
                 if evento.type == pg.QUIT:
                     game_over = True
             self.raqueta2.mover(pg.K_UP, pg.K_DOWN)
             self.raqueta1.mover(pg.K_a, pg.K_z)
-            quien =self.bola.mover()
+            quien = self.bola.mover()
             if quien == "DERECHA":
-                puntuacion1 += 1
+                self.puntuacion2 += 1
+                print(f"{self.puntuacion1} - {self.puntuacion2}")
             elif quien == "IZQUIERDA":
-                puntuacion2 += 1
+                self.puntuacion1 += 1
+                print(f"{self.puntuacion1} - {self.puntuacion2}")
+
+            if self.puntuacion1 > 9 or self.puntuacion2 > 9:
+                game_over = True
+
 
 
             self.bola.comprobar_choque(self.raqueta1,self.raqueta2)
@@ -49,6 +54,13 @@ class Partida():
             self.bola.dibujar(self.pantalla_principal)
             self.raqueta1.dibujar(self.pantalla_principal)
             self.raqueta2.dibujar(self.pantalla_principal)
+
+            p1 = self.fuenteMarcador.render(str(self.puntuacion1),True, BLANCO)#se renderiza el marcador con las características
+            self.pantalla_principal.blit(p1,(10,10))#se indica donde se coloca el marcador
+            
+            p2 = self.fuenteMarcador.render(str(self.puntuacion2),True, BLANCO)#se renderiza el marcador con las características
+            self.pantalla_principal.blit(p2,(ANCHO - 40, 10))#se indica donde se coloca el marcador
+
 
             pg.display.flip()
             #Manda el aviso a la pantalla, de todo lo editado en el while.
