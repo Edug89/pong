@@ -22,14 +22,34 @@ class Partida():
         self.fuenteMarcador = pg.font.Font("juego_pong/fonts/silkscreen.ttf", 40)
         self.fuenteCronometro = pg.font.Font("juego_pong/fonts/silkscreen.ttf", 20)
 
+        self.contadorFotogramas = 0
+        self.fondoPantalla = NEGRO
 
     def fijar_fondo(self):#fijamos el fondo de pantalla según los segundos
+        self.contadorFotogramas += 1
         if self.cronometro > PRIMER_AVISO:
+            self.contadorFotogramas = 0
             return NEGRO
+
         elif self.cronometro > SEGUNDO_AVISO:
-            return  NARANJA
+            #cada 10 fotogramas cambia de naranja a negro y viceversa
+            if self.contadorFotogramas == 10:
+                if self.fondoPantalla == NEGRO:
+                    self.fondoPantalla = NARANJA
+                else:
+                    self.fondoPantalla = NEGRO  
+                self.contadorFotogramas = 0  
+            return  self.fondoPantalla
         else:
-            return ROJO
+            #cada 5 fotogramas cambia de color negro y rojo y viceversa
+            if self.contadorFotogramas >= 5:
+                if self.fondoPantalla == ROJO:
+                    self.fondoPantalla = NEGRO
+                else:
+                    self.fondoPantalla = ROJO
+                self.contadorFotogramas = 0
+
+        return self.fondoPantalla
 
 
 
