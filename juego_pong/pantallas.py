@@ -1,6 +1,6 @@
 import pygame as pg
 from juego_pong.entidades import Bola, Raqueta
-from juego_pong import BLANCO,ANCHO,ALTO,NEGRO,FPS,TIEMPO_MÁXIMO_PARTIDA
+from juego_pong import BLANCO,ANCHO,ALTO, NARANJA,NEGRO,FPS, PRIMER_AVISO, ROJO, SEGUNDO_AVISO, TIEMPO_MAXIMO_PARTIDA
 
 
 class Partida():
@@ -8,7 +8,7 @@ class Partida():
         self.pantalla_principal = pg.display.set_mode((800,600))
         pg.display.set_caption("PONG")
         self.metronomo = pg.time.Clock()
-        self.cronometro = TIEMPO_MÁXIMO_PARTIDA
+        self.cronometro = TIEMPO_MAXIMO_PARTIDA
 
         self.bola = Bola(ANCHO // 2, ALTO // 2, color=(BLANCO))
         self.raqueta1 = Raqueta(20, ALTO // 2, w=20, h=120, color=(BLANCO))
@@ -21,7 +21,17 @@ class Partida():
 
         self.fuenteMarcador = pg.font.Font("juego_pong/fonts/silkscreen.ttf", 40)
         self.fuenteCronometro = pg.font.Font("juego_pong/fonts/silkscreen.ttf", 20)
-        
+
+
+    def fijar_fondo(self):#fijamos el fondo de pantalla según los segundos
+        if self.cronometro > PRIMER_AVISO:
+            return NEGRO
+        elif self.cronometro > SEGUNDO_AVISO:
+            return  NARANJA
+        else:
+            return ROJO
+
+
 
     def bucle_ppal(self):
         self.bola.vx = 5
@@ -29,8 +39,15 @@ class Partida():
 
         game_over = False
 
-        while not game_over:
-            self.metronomo.tick(FPS)
+        while not game_over and \
+                self.puntuacion1 < 10 and \
+                self.puntuacion2 < 10 and \
+                self.cronometro > 0:
+
+            salto_tiempo = self.metronomo.tick(FPS)
+            self.cronometro -= salto_tiempo
+
+
 
             for evento in pg.event.get():
                 #eventos que hace el usuario y lo captura pg.event.get() y lo devuelve una lista de eventos
@@ -54,7 +71,7 @@ class Partida():
             self.bola.comprobar_choque(self.raqueta1,self.raqueta2)
             
 
-            self.pantalla_principal.fill(NEGRO)
+            self.pantalla_principal.fill(self.fijar_fondo()) #fijamos el color de la pantalla principal con la función self.fijar_fondo
             self.bola.dibujar(self.pantalla_principal)
             self.raqueta1.dibujar(self.pantalla_principal)
             self.raqueta2.dibujar(self.pantalla_principal)
