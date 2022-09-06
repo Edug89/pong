@@ -1,6 +1,6 @@
 import pygame as pg
 from juego_pong.entidades import Bola, Raqueta
-from juego_pong import BLANCO,ANCHO,ALTO, NARANJA,NEGRO,FPS, PRIMER_AVISO, ROJO, SEGUNDO_AVISO, TIEMPO_MAXIMO_PARTIDA
+from juego_pong import BLANCO,ANCHO,ALTO, NARANJA,NEGRO,FPS, PRIMER_AVISO, ROJO, SEGUNDO_AVISO, TIEMPO_MAXIMO_PARTIDA,MAGENTA
 
 
 class Partida():
@@ -50,7 +50,6 @@ class Partida():
                 self.contadorFotogramas = 0
 
         return self.fondoPantalla
-
 
 
     def bucle_ppal(self):
@@ -106,3 +105,36 @@ class Partida():
 
             pg.display.flip()
             #Manda el aviso a la pantalla, de todo lo editado en el while.
+
+class Menu():
+    def __init__(self):
+        self.pantalla_principal = pg.display.set_mode((800,600))
+        pg.display.set_caption("MENÚ")
+        self.metronomo = pg.time.Clock()
+        self.imagenFondo = pg.image.load("juego_pong/images/swpong.jpg",)
+        self.fuenteComenzar = pg.font.Font("juego_pong/fonts/silkscreen.ttf", 30)
+
+
+    def bucle_ppal(self):
+        game_over = False
+
+        while not game_over:
+            for evento in pg.event.get():
+                #eventos que hace el usuario y lo captura pg.event.get() y lo devuelve una lista de eventos
+                if evento.type == pg.QUIT:
+                    game_over = True
+                
+                if evento.type == pg.KEYDOWN:
+                    if evento.key == pg.K_RETURN:
+                        game_over = True
+                
+            self.pantalla_principal.blit(self.imagenFondo, (0,0)) #sube una imagen a la pantalla principal
+            menu = self.fuenteComenzar.render("Pulsa ENTER para comenzar",True,MAGENTA)
+            self.pantalla_principal.blit(menu,(ANCHO // 6, ALTO - 100))
+            
+            pg.display.flip()
+            #Manda el aviso a la pantalla, de todo lo editado en el while.
+
+
+
+        
