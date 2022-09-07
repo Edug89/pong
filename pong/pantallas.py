@@ -117,10 +117,13 @@ class Menu():
         pg.display.set_caption("MENÚ")
         self.imagenFondo = pg.image.load("pong/images/swpong.jpg",)
         self.fuenteComenzar = pg.font.Font("pong/fonts/silkscreen.ttf", 30)
+        self.musica = pg.mixer.Sound("pong/musica/8-bit.mp3")
 
 
     def bucle_ppal(self):
         game_over = False
+
+        self.musica.play(-1)
 
         while not game_over:
             for evento in pg.event.get():
@@ -135,9 +138,11 @@ class Menu():
             self.pantalla_principal.blit(self.imagenFondo, (0,0)) #sube una imagen a la pantalla principal
             menu = self.fuenteComenzar.render("Pulsa ENTER para comenzar",True,MAGENTA)
             self.pantalla_principal.blit(menu,(ANCHO // 6, ALTO - 100))
-            
-            pg.display.flip()
-            #Manda el aviso a la pantalla, de todo lo editado en el while.
+        
+            pg.display.flip()#Manda el aviso a la pantalla, de todo lo editado en el while e imagenes.
+
+        self.musica.stop()
+        
 
 
 
