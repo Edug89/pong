@@ -1,7 +1,6 @@
-from juego_pong.pantallas import Partida, Menu
+from pong.juego import Controlador
 
-#juego = Partida()
-juego = Menu()
-juego.bucle_ppal()
+juego = Controlador()
+juego.jugar()
 
 

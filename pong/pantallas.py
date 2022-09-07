@@ -1,13 +1,13 @@
 import pygame as pg
-from juego_pong.entidades import Bola, Raqueta
-from juego_pong import BLANCO,ANCHO,ALTO, NARANJA,NEGRO,FPS, PRIMER_AVISO, ROJO, SEGUNDO_AVISO, TIEMPO_MAXIMO_PARTIDA,MAGENTA
+from pong.entidades import Bola, Raqueta
+from pong import BLANCO,ANCHO,ALTO, NARANJA,NEGRO,FPS, PRIMER_AVISO, PUNTUACION_GANADORA, ROJO, SEGUNDO_AVISO, TIEMPO_MAXIMO_PARTIDA,MAGENTA
 
 
 class Partida():
-    def __init__(self):
-        self.pantalla_principal = pg.display.set_mode((800,600))
+    def __init__(self,pantalla_principal, metronomo):#indicamos pantalla principal y metronomo porque ya están puestos y definidos en juego
+        self.pantalla_principal = pantalla_principal #de esta manera le enviamos a juego desde aqui este objeto
+        self.metronomo = metronomo #de esta manera le enviamos a juego desde aqui este objeto
         pg.display.set_caption("PONG")
-        self.metronomo = pg.time.Clock()
         self.cronometro = TIEMPO_MAXIMO_PARTIDA
 
         self.bola = Bola(ANCHO // 2, ALTO // 2, color=(BLANCO))
@@ -19,8 +19,8 @@ class Partida():
         self.puntuacion1 = 0
         self.puntuacion2 = 0
 
-        self.fuenteMarcador = pg.font.Font("juego_pong/fonts/silkscreen.ttf", 40)
-        self.fuenteCronometro = pg.font.Font("juego_pong/fonts/silkscreen.ttf", 20)
+        self.fuenteMarcador = pg.font.Font("pong/fonts/silkscreen.ttf", 40)
+        self.fuenteCronometro = pg.font.Font("pong/fonts/silkscreen.ttf", 20)
 
         self.contadorFotogramas = 0
         self.fondoPantalla = NEGRO
@@ -55,12 +55,16 @@ class Partida():
     def bucle_ppal(self):
         self.bola.vx = 5
         self.bola.vy = -5
+        self.puntuacion1 = 0
+        self.puntuacion2 = 0
+        self.cronometro = TIEMPO_MAXIMO_PARTIDA
 
         game_over = False
 
+        self.metronomo.tick()
         while not game_over and \
-                self.puntuacion1 < 10 and \
-                self.puntuacion2 < 10 and \
+                self.puntuacion1 < PUNTUACION_GANADORA and \
+                self.puntuacion2 < PUNTUACION_GANADORA and \
                 self.cronometro > 0:
 
             salto_tiempo = self.metronomo.tick(FPS)
@@ -107,12 +111,12 @@ class Partida():
             #Manda el aviso a la pantalla, de todo lo editado en el while.
 
 class Menu():
-    def __init__(self):
-        self.pantalla_principal = pg.display.set_mode((800,600))
+    def __init__(self,pantalla_principal,metronomo):
+        self.pantalla_principal = pantalla_principal
+        self.metronomo = metronomo
         pg.display.set_caption("MENÚ")
-        self.metronomo = pg.time.Clock()
-        self.imagenFondo = pg.image.load("juego_pong/images/swpong.jpg",)
-        self.fuenteComenzar = pg.font.Font("juego_pong/fonts/silkscreen.ttf", 30)
+        self.imagenFondo = pg.image.load("pong/images/swpong.jpg",)
+        self.fuenteComenzar = pg.font.Font("pong/fonts/silkscreen.ttf", 30)
 
 
     def bucle_ppal(self):
@@ -122,7 +126,7 @@ class Menu():
             for evento in pg.event.get():
                 #eventos que hace el usuario y lo captura pg.event.get() y lo devuelve una lista de eventos
                 if evento.type == pg.QUIT:
-                    game_over = True
+                    return True
                 
                 if evento.type == pg.KEYDOWN:
                     if evento.key == pg.K_RETURN:
