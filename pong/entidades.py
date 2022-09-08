@@ -68,6 +68,10 @@ class Bola:
 
 
 class Raqueta:
+    imagenes = {'izqda': 'electric00_.png',
+    'drcha': 'electric00.png'
+    }
+
     def __init__(self, center_x, center_y, w=120, h=20, color=(255,255,0)):
         self.center_x = center_x
         self.center_y = center_y
@@ -78,9 +82,21 @@ class Raqueta:
         self.vx = 0
         self.vy = 0
 
+        self._imagen = pg.image.load(f"pong/images/{self.imagenes['izqda']}") #convert.alpha() para aplicar las imagenes transparesntes
+
+    @property
+    def imagen(self):
+        return self._imagen
+
+    @imagen.setter
+    def imagen(self,valor):
+        self._imagen = pg.image.load(f"pong/images/{self.imagenes[valor]}")
+
+
+
     def dibujar(self, pantalla):
-        pg.draw.rect(pantalla, self.color, (self.center_x - self.w // 2, self.center_y - self.h //2, self.w, self.h))
-        #Se hace la formula de rectarle 
+        #pg.draw.rect(pantalla, self.color, (self.center_x - self.w // 2, self.center_y - self.h //2, self.w, self.h))
+        pantalla.blit(self._imagen, (self.center_x - self.w // 2, self.center_y - self.h //2))
     
     def mover(self, tecla_arriba, tecla_abajo, y_max=600):
         

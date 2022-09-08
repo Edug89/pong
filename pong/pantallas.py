@@ -11,9 +11,15 @@ class Partida():
         self.cronometro = TIEMPO_MAXIMO_PARTIDA
 
         self.bola = Bola(ANCHO // 2, ALTO // 2, color=(BLANCO))
-        self.raqueta1 = Raqueta(20, ALTO // 2, w=20, h=120, color=(BLANCO))
+
+        self.raqueta1 = Raqueta(20, ALTO // 2, w=30, h=114)
+        
+
+    
         self.raqueta1.vy = 5
-        self.raqueta2 = Raqueta(780,ALTO // 2, w=20, h=120, color=(BLANCO))
+
+        self.raqueta2 = Raqueta(780,ALTO // 2, w=30, h=114)
+        self.raqueta2.imagen = "drcha"
         self.raqueta2.vy = 5
 
         self.puntuacion1 = 0
